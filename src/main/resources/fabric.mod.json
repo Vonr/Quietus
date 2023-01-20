@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "quietus",
+  "version": "${version}",
+  "name": "Quietus",
+  "description": "Configurable XP on death",
+  "authors": [
+    "Vonr/Qther"
+  ],
+  "contact": {
+    "website": "https://github.com/Vonr/Quietus",
+    "repo": "https://github.com/Vonr/Quietus"
+  },
+  "license": "MIT",
+  "icon": "assets/quietus/icon.png",
+  "environment": "server",
+  "entrypoints": {
+    "client": [
+    ],
+    "main": [
+      "dev.qther.quietus.Quietus"
+    ]
+  },
+  "mixins": [
+    "quietus.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.14.13",
+    "minecraft": "1.19.3"
+  }
+}
