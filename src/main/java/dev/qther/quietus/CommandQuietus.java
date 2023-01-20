@@ -51,6 +51,12 @@ public class CommandQuietus {
                 })
                 .then(literal("toggle")
                         .executes(context -> {
+                            if (!context.getSource().hasPermissionLevel(2)) {
+                                context.getSource().sendError(msg("You do not have permission to use this command!"));
+
+                                return 0;
+                            }
+
                             Quietus.CONFIG.enabled = !Quietus.CONFIG.enabled;
                             Quietus.CONFIG.save();
                             context.getSource().sendMessage(msg("Quietus is now " + (Quietus.CONFIG.enabled ? "enabled" : "disabled") + "."));
@@ -59,11 +65,17 @@ public class CommandQuietus {
                         }))
                 .then(literal("percent")
                         .executes(context -> {
-                            context.getSource().sendMessage(msg("Percentage is currently " + Quietus.CONFIG.percentage + "."));
+                            context.getSource().sendMessage(msg("Percentage is currently " + String.format("%.2f", Quietus.CONFIG.percentage * 100) + "%."));
                             return 1;
                         })
                         .then(argument("percent", floatArg(0, 100))
                                 .executes(context -> {
+                                    if (!context.getSource().hasPermissionLevel(2)) {
+                                        context.getSource().sendError(msg("You do not have permission to use this command!"));
+
+                                        return 0;
+                                    }
+
                                     Quietus.CONFIG.percentage = Math.min(1f, context.getArgument("percent", Float.class) / 100f);
                                     Quietus.CONFIG.save();
                                     context.getSource().sendMessage(msg("Quietus percentage set to " + String.format("%.2f", Quietus.CONFIG.percentage * 100) + "%."));
@@ -78,6 +90,12 @@ public class CommandQuietus {
                         }))
                 .then(literal("reload")
                         .executes(context -> {
+                            if (!context.getSource().hasPermissionLevel(2)) {
+                                context.getSource().sendError(msg("You do not have permission to use this command!"));
+
+                                return 0;
+                            }
+
                             Quietus.CONFIG.load();
                             context.getSource().sendMessage(msg("Config reloaded. Settings are now:").append(settings()));
 
