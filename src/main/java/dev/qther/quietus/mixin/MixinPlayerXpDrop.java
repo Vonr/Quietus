@@ -10,6 +10,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(PlayerEntity.class)
 public abstract class MixinPlayerXpDrop {
+    double xpFromLevel(int level) {
+        return (level <= 16)
+                ? level * level + 6 * level
+                : (level <= 32)
+                ? (2.5 * level * level - 40.5 * level + 360)
+                : (4.5 * level * level - 162.5 * level + 2220);
+    }
+
     @Inject(at = @At("HEAD"), method = "getXpToDrop()I", cancellable = true)
     public void getXpToDrop(CallbackInfoReturnable<Integer> cir) {
         if (!Quietus.CONFIG.enabled) {
@@ -22,15 +30,14 @@ public abstract class MixinPlayerXpDrop {
             cir.setReturnValue(0);
         }
 
-        double lvl = player.experienceLevel;
+        int xp = (int) (Quietus.CONFIG.percentage * (xpFromLevel(player.experienceLevel) + player.experienceProgress * player.getNextLevelExperience()));
+        Quietus.LOGGER.info("Dropping " + xp + " XP.");
 
-        int xp = (int) (Quietus.CONFIG.percentage *
-                ((lvl <= 16)
-                ? lvl * lvl + 6 * lvl
-                : (lvl <= 32)
-                ? (2.5 * lvl * lvl - 40.5 * lvl + 360)
-                : (4.5 * lvl * lvl - 162.5 * lvl + 2220)));
-
+        if (Quietus.CONFIG.maxLevels != -1) {
+            int max = (int) xpFromLevel(Quietus.CONFIG.maxLevels);
+            xp = Math.min(xp, max);
+        }
+        Quietus.LOGGER.info("Final " + xp + " XP.");
         cir.setReturnValue(xp);
     }
 }

@@ -8,7 +8,8 @@ The configuration file can be found in `server_folder/config/quietus.json` with 
 ```json
 {
   "enabled": true,
-  "percentage": 0.8
+  "percentage": 0.8,
+  "maxLevels": -1
 }
 ```
 
@@ -17,10 +18,11 @@ The configuration file can be found in `server_folder/config/quietus.json` with 
 The `/quietus` command allows the user to change settings in-game as well as reload the configuration files to reload external changes.
 
 ```
-/quietus: Shows help
+/quietus: Shows help.
 /quietus
-    toggle: Toggles the mod on or off
-    percent [0.0..100.0]: Sets the percentage of XP to be dropped by players
+    toggle: Toggles the mod on or off.
+    percent [0.0..100.0]: Sets the percentage of XP to be dropped by players.
+    maxlevels [-1..]: Changes the maximum level worth of XP dropped, -1 is unlimited.
     settings: Shows the current settings of the mod.
     reload: Reloads the configuration file.
 ```

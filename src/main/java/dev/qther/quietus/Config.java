@@ -13,6 +13,7 @@ public class Config {
 
     public boolean enabled = true;
     public float percentage = 0.8f;
+    public int maxLevels = -1;
 
     public Config() {
         CONFIG_FILE = new File(FabricLoader.getInstance().getConfigDir().resolve("quietus.json").toAbsolutePath().toString().replace("/./", "/"));
